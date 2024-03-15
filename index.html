@@ -4,13 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        .vermelho {
+            color: red;
+        }
+        
+        .verde {
+            color: green;
+        }
+    </style>
     <title>Semáforo</title>
 </head>
 <body>
     <div id="image">
+        
+    <button onclick="dispararConfete()">Disparar Confete</button>
+    <button onclick="tocarSom()">Ativar Som</button>
     </div>
+
+    <audio id="audio" src="caminho/do/seu/arquivo-de-audio.mp3"></audio>
  
     <script>
+        const som = document.getElementById('audio');
+
         function carregarImagem() {
             fetch('https://niloweb.com.br/transit-room/api/reg_endpoint.php')
                 .then(response => response.json())
@@ -23,14 +39,19 @@
                             case 'A':
                                 titulo.textContent = "AGUARDANDO LIBERAÇÃO E SEM NINGUÉM FORA DE SALA";
                                 imagem.src = "images/arvore_outono2.jpg";
+                                dispararConfete('yellow'); 
                                 break;
                             case 'B':
                                 titulo.textContent = "BLOQUEADO, TRANSITO COM ALGUÉM FORA DA SALA OU LIBERADO PARA SAIR";
+                                titulo.classList.add('vermelho'); // Adiciona classe 'vermelho' ao <h2>
                                 imagem.src = "images/arvore_inverno.png";
+                                dispararConfete('red'); 
                                 break;
                             case 'L':
-                                titulo.textContent = " LIBERADO, TRANSITO LIVRE E SEM NINGUÉM FORA DE SALA";
+                                titulo.textContent = "LIBERADO, TRANSITO LIVRE E SEM NINGUÉM FORA DE SALA";
+                                titulo.classList.add('verde'); // Adiciona classe 'verde' ao <h2>
                                 imagem.src = "images/arvore.png";
+                                dispararConfete('green'); 
                                 break;
                             default:
                                 console.error('Condição desconhecida:', condition);
@@ -46,6 +67,50 @@
                 });
         }
         window.onload = carregarImagem;
+
+        function dispararConfete(cor) {
+            const defaults = {
+                spread: 360,
+                ticks: 50,
+                gravity: 0,
+                decay: 0.94,
+                startVelocity: 30,
+                shapes: ["star"],
+                colors: {
+                    yellow: ["#FFE400", "#FFBD00", "#E89400", "#FFCA6C", "#FDFFB8"],
+                    red: ["#FF0000", "#CC0000", "#FF6666", "#FF3333", "#FF9999"],
+                    green: ["#00FF00", "#00CC00", "#66FF66", "#33FF33", "#99FF99"]
+                }
+            };
+
+            function shoot() {
+                confetti({
+                    ...defaults,
+                    particleCount: 40,
+                    scalar: 1.2,
+                    shapes: ["star"],
+                    colors: defaults.colors[cor], 
+                });
+
+                confetti({
+                    ...defaults,
+                    particleCount: 10,
+                    scalar: 0.75,
+                    shapes: ["circle"],
+                    colors: defaults.colors[cor], 
+                });
+            }
+            
+            shoot();
+
+            window.dispararConfete = function() {
+                shoot();
+            }
+        }
+        function tocarSom() {
+            som.play();
+        }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
 </body>
 </html>
