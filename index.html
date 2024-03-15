@@ -42,7 +42,7 @@
                 switch(condition) {
                     case 'A':
                         titulo.textContent = "AGUARDANDO LIBERAÇÃO E SEM NINGUÉM FORA DE SALA";
-                        imagem.src = "images/arvore_outono2.jpg";
+                        imagem.src = "images/arvore_outono2.png";
                         dispararConfete('yellow'); 
                         break;
                     case 'B':
@@ -69,6 +69,7 @@
         .catch(error => {
             console.error('Erro ao conectar à API:', error);
         });
+
         
     setTimeout(carregarImagem, 60000); 
 
