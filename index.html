@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Semáforo</title>
+</head>
+<body>
+    <div id="image">
+    </div>
+ 
+    <script>
+        function carregarImagem() {
+            fetch('https://niloweb.com.br/transit-room/api/reg_endpoint.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0 && data[0].res && data[0].dia) {
+                        const imagem = document.createElement('img');
+                        const titulo = document.createElement('h2');
+                        const condition = data[0].res;
+                        switch(condition) {
+                            case 'A':
+                                titulo.textContent = "Aguarde";
+                                imagem.src = "images/arvore_outono2.jpg";
+                                break;
+                            case 'B':
+                                titulo.textContent = "Você está Bloqueado";
+                                imagem.src = "images/arvore_inverno.png";
+                                break;
+                            case 'L':
+                                titulo.textContent = "Você está Liberado";
+                                imagem.src = "images/arvore.png";
+                                break;
+                            default:
+                                console.error('Condição desconhecida:', condition);
+                        }
+                        document.getElementById('image').appendChild(titulo);
+                        document.getElementById('image').appendChild(imagem);
+                    } else {
+                        console.error('Erro ao carregar imagem da API.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao conectar à API:', error);
+                });
+        }
+        window.onload = carregarImagem;
+    </script>
+</body>
+</html>
