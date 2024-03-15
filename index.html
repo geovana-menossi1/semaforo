@@ -16,57 +16,65 @@
     <title>Semáforo</title>
 </head>
 <body>
-    <div id="image">
+    <div class="botoes">
         
     <button onclick="dispararConfete()">Disparar Confete</button>
     <button onclick="tocarSom()">Tocar Som</button>
     </div>
+    <div id="image">
+        
+    </div>
     <audio id="audio" src="som/cardinal-37075.mp3"></audio>
     <script>
         const som = document.getElementById('audio');
+        
         function carregarImagem() {
-            fetch('https://niloweb.com.br/transit-room/api/reg_endpoint.php')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.length > 0 && data[0].res && data[0].dia) {
-                        const imagem = document.createElement('img');
-                        const titulo = document.createElement('h2');
-                        const condition = data[0].res;
-                        switch(condition) {
-                            case 'A':
-                                titulo.textContent = "AGUARDANDO LIBERAÇÃO E SEM NINGUÉM FORA DE SALA";
-                                imagem.src = "images/arvore_outono2.jpg";
-                                dispararConfete('yellow'); 
-                                break;
-                            case 'B':
-                                titulo.textContent = "BLOQUEADO, TRANSITO COM ALGUÉM FORA DA SALA OU LIBERADO PARA SAIR";
-                                titulo.classList.add('vermelho');
-                                imagem.src = "images/arvore_inverno.png";
-                                dispararConfete('red'); 
-                                break;
-                            case 'L':
-                                titulo.textContent = "LIBERADO, TRANSITO LIVRE E SEM NINGUÉM FORA DE SALA";
-                                titulo.classList.add('verde');
-                                imagem.src = "images/arvore.png";
-                                dispararConfete('green'); 
-                                break;
-                            default:
-                                console.error('Condição desconhecida:', condition);
-                        }
-                        document.getElementById('image').appendChild(titulo);
-                        document.getElementById('image').appendChild(imagem);
-                    } else {
-                        console.error('Erro ao carregar imagem da API.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Erro ao conectar à API:', error);
-                });
+        const container = document.getElementById('image');
+        container.innerHTML = '';
+
+    fetch('https://niloweb.com.br/transit-room/api/reg_endpoint.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0 && data[0].res && data[0].dia) {
+                const imagem = document.createElement('img');
+                const titulo = document.createElement('h2');
+                const condition = data[0].res;
+                switch(condition) {
+                    case 'A':
+                        titulo.textContent = "AGUARDANDO LIBERAÇÃO E SEM NINGUÉM FORA DE SALA";
+                        imagem.src = "images/arvore_outono2.jpg";
+                        dispararConfete('yellow'); 
+                        break;
+                    case 'B':
+                        titulo.textContent = "BLOQUEADO, TRANSITO COM ALGUÉM FORA DA SALA OU LIBERADO PARA SAIR";
+                        titulo.classList.add('vermelho');
+                        imagem.src = "images/arvore_inverno.png";
+                        dispararConfete('red'); 
+                        break;
+                    case 'L':
+                        titulo.textContent = "LIBERADO, TRANSITO LIVRE E SEM NINGUÉM FORA DE SALA";
+                        titulo.classList.add('verde');
+                        imagem.src = "images/arvore.png";
+                        dispararConfete('green'); 
+                        break;
+                    default:
+                        console.error('Condição desconhecida:', condition);
+                }
+                container.appendChild(titulo);
+                container.appendChild(imagem);
+            } else {
+                console.error('Erro ao carregar imagem da API.');
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao conectar à API:', error);
+        });
+        
+    setTimeout(carregarImagem, 60000); 
+
         }
         window.onload = carregarImagem;
-        
-        setTimeout(carregarImagem, 60000);
-
+        som.play();
         function dispararConfete(cor) {
             const defaults = {
                 spread: 360,
@@ -104,6 +112,7 @@
         window.som = function(){
             som.play();
         }
+        som.play();
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
 </body>
