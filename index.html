@@ -21,15 +21,15 @@
                         const condition = data[0].res;
                         switch(condition) {
                             case 'A':
-                                titulo.textContent = "Aguarde";
+                                titulo.textContent = "AGUARDANDO LIBERAÇÃO E SEM NINGUÉM FORA DE SALA";
                                 imagem.src = "images/arvore_outono2.jpg";
                                 break;
                             case 'B':
-                                titulo.textContent = "Você está Bloqueado";
+                                titulo.textContent = "BLOQUEADO, TRANSITO COM ALGUÉM FORA DA SALA OU LIBERADO PARA SAIR";
                                 imagem.src = "images/arvore_inverno.png";
                                 break;
                             case 'L':
-                                titulo.textContent = "Você está Liberado";
+                                titulo.textContent = " LIBERADO, TRANSITO LIVRE E SEM NINGUÉM FORA DE SALA";
                                 imagem.src = "images/arvore.png";
                                 break;
                             default:
