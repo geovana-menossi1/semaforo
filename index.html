@@ -6,11 +6,11 @@
     <link rel="stylesheet" href="css/style.css">
     <style>
         .vermelho {
-            color: red;
+            color: #DF4A4A;
         }
         
         .verde {
-            color: green;
+            color: #919E5E;
         }
     </style>
     <title>Semáforo</title>
@@ -19,14 +19,11 @@
     <div id="image">
         
     <button onclick="dispararConfete()">Disparar Confete</button>
-    <button onclick="tocarSom()">Ativar Som</button>
+    <button onclick="tocarSom()">Tocar Som</button>
     </div>
-
-    <audio id="audio" src="caminho/do/seu/arquivo-de-audio.mp3"></audio>
- 
+    <audio id="audio" src="som/cardinal-37075.mp3"></audio>
     <script>
         const som = document.getElementById('audio');
-
         function carregarImagem() {
             fetch('https://niloweb.com.br/transit-room/api/reg_endpoint.php')
                 .then(response => response.json())
@@ -43,13 +40,13 @@
                                 break;
                             case 'B':
                                 titulo.textContent = "BLOQUEADO, TRANSITO COM ALGUÉM FORA DA SALA OU LIBERADO PARA SAIR";
-                                titulo.classList.add('vermelho'); // Adiciona classe 'vermelho' ao <h2>
+                                titulo.classList.add('vermelho');
                                 imagem.src = "images/arvore_inverno.png";
                                 dispararConfete('red'); 
                                 break;
                             case 'L':
                                 titulo.textContent = "LIBERADO, TRANSITO LIVRE E SEM NINGUÉM FORA DE SALA";
-                                titulo.classList.add('verde'); // Adiciona classe 'verde' ao <h2>
+                                titulo.classList.add('verde');
                                 imagem.src = "images/arvore.png";
                                 dispararConfete('green'); 
                                 break;
@@ -67,6 +64,8 @@
                 });
         }
         window.onload = carregarImagem;
+        
+        setTimeout(carregarImagem, 60000);
 
         function dispararConfete(cor) {
             const defaults = {
@@ -91,14 +90,6 @@
                     shapes: ["star"],
                     colors: defaults.colors[cor], 
                 });
-
-                confetti({
-                    ...defaults,
-                    particleCount: 10,
-                    scalar: 0.75,
-                    shapes: ["circle"],
-                    colors: defaults.colors[cor], 
-                });
             }
             
             shoot();
@@ -107,7 +98,10 @@
                 shoot();
             }
         }
-        function tocarSom() {
+            function tocarSom() {
+            som.play();
+        }
+        window.som = function(){
             som.play();
         }
     </script>
